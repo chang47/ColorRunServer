@@ -116,7 +116,7 @@
 	if(isset($_GET["action"]) && in_array($_GET["action"], $possible_url))
 	{
 		echo "Is it here?";
-		
+
 		switch ($_GET["action"])	
 	    {
 	      case "get_friend_list":
@@ -144,6 +144,7 @@
 	       		}
 	       		else{
 	       			$value = "Missing argument";
+	    			echo $value;
 	       		}
 
 	       		break;
@@ -152,3 +153,7 @@
 
 	exit(json_encode($value));
 ?>	
+
+<html>
+	hi
+</html>
