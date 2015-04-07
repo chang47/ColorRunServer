@@ -4,6 +4,7 @@
 		$db_player = new PDO("mysql:dbname=player;host=localhost", "root", "powerade");
 		$results = array();
 		$id = -1
+
 		while(count($results) == 0){
 			$min = 1;
 			$max = 2147483647;
@@ -114,6 +115,8 @@
 
 	if(isset($_GET["action"]) && in_array($_GET["action"], $possible_url))
 	{
+		echo "Is it here?";
+		
 		switch ($_GET["action"])	
 	    {
 	      case "get_friend_list":
@@ -137,6 +140,7 @@
 	       case "register":
 	       		if (isset($_GET["username"] && isset($_GET["firstname"]  && isset($_GET["lastname"] ){
 					$value = register();
+					echo $value;
 	       		}
 	       		else{
 	       			$value = "Missing argument";
