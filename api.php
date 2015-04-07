@@ -164,6 +164,9 @@
 				$value = register();
 				echo $value;
 	       	}
+	       	else{
+	       		echo "Nothing in getters";
+	       	}
 		?>
 		</p>
 	</body>
