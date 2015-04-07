@@ -2,16 +2,23 @@
 	function register(){
 		$db_reference = new PDO("mysql:dbname=reference;host=localhost", "brian", "powerade");
 		$db_player = new PDO("mysql:dbname=player;host=localhost", "brian", "powerade");
-		$min = 1;
-		$max = 2147483647;
-		$id = rand($min, $max);
+		$results = array();
+		$id = -1
+		while(count($results) == 0){
+			$min = 1;
+			$max = 2147483647;
+			$id = rand($min, $max);
 
-		$pid = $db_player->quote($id);
+			$pid = $db_player->quote($id);
 
-		$rows = $db_player->prepare("SELECT * FROM player p 
-										WHERE p.id = :pid
-										LIMIT 1");
+			$rows = $db_player->prepare("SELECT * FROM player p 
+											WHERE p.id = :pid
+											LIMIT 1");
+			$rows->execute(array(':pid' => $id));
+			$results=$rows->fetchAll(PDO::FETCH_ASSOC);
+		}
 
+		return $id
 	}
 
 	function update_player_stats(){
@@ -92,7 +99,7 @@
 
 	if(isset($_GET["action"]) && in_array($_GET["action"], $possible_url))
 	{
-		switch ($_GET["action"])
+		switch ($_GET["action"])	
 	    {
 	      case "get_friend_list":
 	      	if (isset($_GET["pid"] && isset($_GET["firstname"]  && isset($_GET["lastname"] )
@@ -113,7 +120,7 @@
 	      		$value = "Missing argument";
 	        break;
 	       case "register":
-
+	       		$value = register();
 	    }
 	}
 
