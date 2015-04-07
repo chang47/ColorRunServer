@@ -155,5 +155,16 @@
 ?>	
 
 <html>
-	hi
+	<head>Testing Code</head>
+	<body>
+		More testing
+		<p> 
+		<?php
+			if (isset($_GET["username"] && isset($_GET["firstname"]  && isset($_GET["lastname"] ){
+				$value = register();
+				echo $value;
+	       	}
+		?>
+		</p>
+	</body>
 </html>
