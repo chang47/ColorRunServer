@@ -1,5 +1,32 @@
 <?php
-	function get_player_equipments($id){
+	function register(){
+		$db_reference = new PDO("mysql:dbname=reference;host=localhost", "brian", "powerade");
+		$db_player = new PDO("mysql:dbname=player;host=localhost", "brian", "powerade");
+		$min = 1;
+		$max = 2147483647;
+		$id = rand($min, $max);
+
+		$pid = $db_player->quote($id);
+
+		$rows = $db_player->prepare("SELECT * FROM player p 
+										WHERE p.id = :pid
+										LIMIT 1");
+
+	}
+
+	function update_player_stats(){
+		$db_reference = new PDO("mysql:dbname=reference;host=localhost", "brian", "powerade");
+		$db_player = new PDO("mysql:dbname=player;host=localhost", "brian", "powerade");
+
+	}
+
+	function update_player_inventory(){
+		$db_reference = new PDO("mysql:dbname=reference;host=localhost", "brian", "powerade");
+		$db_player = new PDO("mysql:dbname=player;host=localhost", "brian", "powerade");
+
+	}
+
+	function get_player_inventory($id){
 		$db_reference = new PDO("mysql:dbname=reference;host=localhost", "brian", "powerade");
 		$db_player = new PDO("mysql:dbname=player;host=localhost", "brian", "powerade");
 		$fname = $db_player->quote($fname);
@@ -59,7 +86,7 @@
 		return $results;
 	}
 
-	$possible_url = array("get_friend_list", "get_player_stats", "get_player_equipments");
+	$possible_url = array("register", "get_friend_list", "get_player_stats", "get_player_inventory");
 	$value = "An error has occurred";
 
 
@@ -79,12 +106,14 @@
 	      	else
 	      		$value = "Missing argument";
 	      	break;
-	      case "get_player_equipments":
+	      case "get_player_inventory":
 	      	if (isset($_GET["pid"] && isset($_GET["firstname"]  && isset($_GET["lastname"] )
 	      		$value = get_player_equipments($_GET["firstname"], $_GET["lastname"], $_GET["pid"]);
 	      	else
 	      		$value = "Missing argument";
 	        break;
+	       case "register":
+
 	    }
 	}
 
