@@ -1,7 +1,7 @@
 <?php
 	function register(){
-		$db_reference = new PDO("mysql:dbname=reference;host=localhost", "brian", "powerade");
-		$db_player = new PDO("mysql:dbname=player;host=localhost", "brian", "powerade");
+		$db_reference = new PDO("mysql:dbname=reference;host=localhost", "root", "powerade");
+		$db_player = new PDO("mysql:dbname=player;host=localhost", "root", "powerade");
 		$results = array();
 		$id = -1
 		while(count($results) == 0){
@@ -11,25 +11,40 @@
 
 			$pid = $db_player->quote($id);
 
-			$rows = $db_player->prepare("SELECT * FROM player p 
-											WHERE p.id = :pid
+			$rows = $db_player->prepare("SELECT * FROM player 
+											WHERE Id = :pid
 											LIMIT 1");
+
 			$rows->execute(array(':pid' => $id));
 			$results=$rows->fetchAll(PDO::FETCH_ASSOC);
 		}
 
+		$player_key = $db_player->quote("player");
+		$id_key = $db_player->quote("Id");
+		$username_key = $db_player->quote("Username");
+		$fname_key = $db_player->quote("Fname");
+		$lname = $db_player->quote("Lname");
+		$pid = $db_player->quote($pid);
+
+		$db_player->prepare("INSERT INTO player(Id, Username, Fname, Lname, 
+			Level, Experience, Gold, Gems, Friends, Items, Equipments, 
+			Speed, Endurance`, Power) VALUES (:pid, :user, :fname, :lname,
+			1, 1, 100, 0, none, none, none, 5, 5, 5)"); 
+
+		$rows->execute(array(':fname' => $_GET["firstname"], ':lname' => $_GET["lastname"], 'pid' => $id, 'user' => $_GET["username"]));
+		$results=$rows->fetchAll(PDO::FETCH_ASSOC);
 		return $id
 	}
 
 	function update_player_stats(){
-		$db_reference = new PDO("mysql:dbname=reference;host=localhost", "brian", "powerade");
-		$db_player = new PDO("mysql:dbname=player;host=localhost", "brian", "powerade");
+		$db_reference = new PDO("mysql:dbname=reference;host=54.148.77.196", "root", "powerade");
+		$db_player = new PDO("mysql:dbname=player;host=54.148.77.196", "root", "powerade");
 
 	}
 
 	function update_player_inventory(){
-		$db_reference = new PDO("mysql:dbname=reference;host=localhost", "brian", "powerade");
-		$db_player = new PDO("mysql:dbname=player;host=localhost", "brian", "powerade");
+		$db_reference = new PDO("mysql:dbname=reference;host=54.148.77.196", "root", "powerade");
+		$db_player = new PDO("mysql:dbname=player;host=54.148.77.196", "root", "powerade");
 
 	}
 
@@ -120,9 +135,16 @@
 	      		$value = "Missing argument";
 	        break;
 	       case "register":
-	       		$value = register();
+	       		if (isset($_GET["username"] && isset($_GET["firstname"]  && isset($_GET["lastname"] ){
+					$value = register();
+	       		}
+	       		else{
+	       			$value = "Missing argument";
+	       		}
+
+	       		break;
 	    }
 	}
 
 	exit(json_encode($value));
-?>
+?>	
